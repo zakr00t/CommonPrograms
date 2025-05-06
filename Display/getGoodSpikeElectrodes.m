@@ -14,7 +14,7 @@
 % stimulusPeriod: duration over which firing rate is calculated. Default:[0.25 0.75]
 % baselinePeriod: duration over which firing rate is calculated. Default:[-0.5 0]
 
-function [goodSpikeElectrodes,electrodesToUse,firingRate,snr,totalSpikes] = getGoodSpikeElectrodes(subjectName,expDate,protocolName,folderSourceString,cutoffs,badTrialNameStr,electrodesToUse,parameterCombinationVals,stimulusPeriod,baselinePeriod)
+function [goodSpikeElectrodes,electrodesToUse,firingRate,snr,totalSpikes,changeInFiringRate] = getGoodSpikeElectrodes(subjectName,expDate,protocolName,folderSourceString,cutoffs,badTrialNameStr,electrodesToUse,parameterCombinationVals,stimulusPeriod,baselinePeriod)
 
 if ~exist('folderSourceString','var');  folderSourceString='N:';        end
 if ~exist('cutoffs','var');             cutoffs=[];                     end
@@ -79,21 +79,16 @@ SourceUnitID = SourceUnitID(iPos);
 parameterCombinations = loadParameterCombinations(folderExtract);
 
 if isempty(parameterCombinationVals)
-    a = size(parameterCombinations,1);
-    e = size(parameterCombinations,2);
-    s = size(parameterCombinations,3);
-    f = size(parameterCombinations,4);
-    o = size(parameterCombinations,5);
-    c = size(parameterCombinations,6);
-    t = size(parameterCombinations,7);
+    [a, e, s, f, o, c, t] = size(parameterCombinations); % Removed boilerplate code
 else
-    a = parameterCombinationVals(1);
-    e = parameterCombinationVals(2);
-    s = parameterCombinationVals(3);
-    f = parameterCombinationVals(4);
-    o = parameterCombinationVals(5);
-    c = parameterCombinationVals(6);
-    t = parameterCombinationVals(7);
+    [a, e, s, f, o, c, t] = deal(1); % I have no idea how 7D cells are created or look, so for now I will assume paramCombVals is a scalar index
+    protocol = string(strsplit(protocolName, "_"));
+    protocol = protocol(1);
+    if protocol == "GRF" % Knot protocol
+        f = parameterCombinationVals;
+    else % MonkeyLogic protocol
+        o = parameterCombinationVals; % I don't know why Supratim did not make f the idx like with Knot Image protocol, if he did, I wouldn't need this loop in the first place :(
+    end
 end
 
 goodPos = setdiff(parameterCombinations{a,e,s,f,o,c,t},badTrials);

@@ -23,7 +23,7 @@
 % Summary figure now displays the bad trials for 'CheckTheseElectrodes'
 % only.
 
-function [allBadTrials,badTrials] = findBadTrialsWithLFPv3New(monkeyName,expDate,protocolName,folderSourceString,gridType,checkTheseElectrodes,processAllElectrodes,threshold,maxLimit,minLimit,showElectrodes,saveDataFlag,checkPeriod,rejectTolerance,marginalsFlag,arrayString)
+function [allBadTrials,badTrials,badElecs] = findBadTrialsWithLFPv3(monkeyName,expDate,protocolName,folderSourceString,gridType,checkTheseElectrodes,maxLimit,minLimit,checkPeriod,arrayString,threshold,processAllElectrodes,showElectrodes,saveDataFlag,rejectTolerance,marginalsFlag)
 
 if ~exist('checkTheseElectrodes','var');     checkTheseElectrodes = [33 12 80 63 44];   end
 if ~exist('processAllElectrodes','var');     processAllElectrodes = 0;                  end
@@ -40,7 +40,7 @@ if ~exist('arrayString','var');              arrayString = [];                  
 folderName = fullfile(folderSourceString,'data',monkeyName,gridType,expDate,protocolName);
 folderSegment = fullfile(folderName,'segmentedData');
 
-load(fullfile(folderSegment,'LFP','lfpInfo.mat'));
+load(fullfile(folderSegment,'LFP','lfpInfo.mat'), 'timeVals', 'analogChannelsStored');
 
 if processAllElectrodes % compute bad trials for all the saved electrodes
     numElectrodes = length(analogChannelsStored);

@@ -39,7 +39,7 @@ if ~isempty(highlightElectrodes)
     for i=1:length(highlightElectrodes)
         highlightElectrode=highlightElectrodes(i);
         
-        [highlightRow,highlightCol,electrodeArray] = electrodePositionOnGrid(highlightElectrode,gridType,subjectName,gridLayout,refScheme);
+        [highlightRow,highlightCol] = electrodePositionOnGrid(highlightElectrode,gridType,subjectName,gridLayout,refScheme);
 
         % Create patch
         patchX = (highlightCol-1)*dX;
@@ -53,8 +53,6 @@ if ~isempty(highlightElectrodes)
             patch('XData',patchLocX,'YData',patchLocY,'FaceColor',colorNames);
         end
     end
-else
-    [~,~,electrodeArray] = electrodePositionOnGrid(1,gridType,subjectName,gridLayout,refScheme);
 end
 
 % Write electrode numbers
@@ -63,7 +61,7 @@ if ~hideElectrodeNums
         textY = (numRows-i)*dY + dY/2;
         for j=1:numCols
             textX = (j-1)*dX + dX/2;
-            if electrodeArray(i,j)>0
+            if ~isnan(electrodeArray(i,j)) % I have replaced 0s with NaNs in 'electrodePositionOnGrid.m', as they are more explicit in conveying the concept of a separation between grids
                 text(textX,textY,num2str(electrodeArray(i,j)),'HorizontalAlignment','center');
             end
         end

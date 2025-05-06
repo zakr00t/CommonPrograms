@@ -64,7 +64,7 @@ conditionNumList = [];
 goodStimTimes = [];
 for i=1:length(goodTrials)
     trialNum = goodTrials(i);
-    conditionNumList = cat(2,conditionNumList,data(trialNum).Condition); % Note that this only works when there is a single stimulus per trial
+    conditionNumList = cat(2,conditionNumList,data(trialNum).UserVars.stim_comb);
     goodStimTimes = cat(2,goodStimTimes,stimOnTimes(trialNumOfEachStim==trialNum));
 end
 

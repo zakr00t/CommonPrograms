@@ -232,21 +232,8 @@ if strcmpi(gridType,'Microelectrode')
             00 79 69 59 49 39 29 19 09 00];
 
     elseif  strcmp(subjectName,'dona') || strcmp(subjectName,'hulk') || strcmp(subjectName,'jojo')
-
-        electrodeArray = ...
-            [96 90 84 78 72 66 60 54;
-            95 89 83 77 71 65 59 53;
-            94 88 82 76 70 64 58 52;
-            93 87 81 75 69 63 57 51;
-            92 86 80 74 68 62 56 50;
-            91 85 79 73 67 61 55 49;
-            00 00 00 00 00 00 00 00;
-            48 42 36 30 24 18 12 06;
-            47 41 35 29 23 17 11 05;
-            46 40 34 28 22 16 10 04;
-            45 39 33 27 21 15 09 03;
-            44 38 32 26 20 14 08 02;
-            43 37 31 25 19 13 07 01];
+        % Vertical space-efficient GUI representation:
+        electrodeArray = cat(2, reshape(1:48, [6, 8]), NaN*zeros(6, 1), reshape(49:96, [6, 8])); % Dual Array indexing but side-by-side, with 0s replaced by NaNs for explicitness on what is NOT an electrode
 
     elseif strcmp(subjectName,'tutu')|| strcmp(subjectName,'alpaH') || strcmp(subjectName,'kesariH')
 
