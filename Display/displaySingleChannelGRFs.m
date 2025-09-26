@@ -475,12 +475,10 @@ colormap jet;
     function holdOn_Callback(source,~)
         holdOnState = get(source,'Value');
         
-        holdOnGivenPlotHandle(plotHandles,holdOnState);
-        holdOnGivenPlotHandle(hTemporalFreqPlot,holdOnState);
-        holdOnGivenPlotHandle(hContrastPlot,holdOnState);
-        holdOnGivenPlotHandle(hOrientationPlot,holdOnState);
-        holdOnGivenPlotHandle(hSpatialFreqPlot,holdOnState);
-        holdOnGivenPlotHandle(hSigmaPlot,holdOnState);
+        holdOnGivenPlotHandle(hSpikePlots,holdOnState);
+        holdOnGivenPlotHandle(hERPPlots,holdOnState);
+        holdOnGivenPlotHandle(hPSDPlots,holdOnState);
+        holdOnGivenPlotHandle(hDeltaPSDPlots,holdOnState);
         
         if holdOnState
             set(hElectrodes,'Nextplot','add');

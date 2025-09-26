@@ -65,12 +65,12 @@ goodStimTimes = [];
 for i=1:length(goodTrials)
     trialNum = goodTrials(i);
     conditionNumList = cat(2,conditionNumList,data(trialNum).UserVars.stim_comb);
-    goodStimTimes = cat(2,goodStimTimes,stimOnTimes(trialNumOfEachStim==trialNum));
+    goodStimTimes = cat(2,goodStimTimes,stimOnTimes(trialNumOfEachStim==trialNum)');
 end
 
-% Set up dummy variables. Condition number is assigned to orientation
+% Set up dummy variables. Condition number is assigned to spatial frequency
 numStimuli = length(conditionNumList);
-stimResults.orientation = conditionNumList;
+stimResults.spatialFrequency = conditionNumList;
 
 stimResults.azimuth = zeros(1,numStimuli);
 stimResults.elevation = zeros(1,numStimuli);
@@ -78,7 +78,7 @@ stimResults.sigma = zeros(1,numStimuli);
 stimResults.radius = zeros(1,numStimuli);
 stimResults.contrast = zeros(1,numStimuli);
 stimResults.temporalFrequency = zeros(1,numStimuli);
-stimResults.spatialFrequency = zeros(1,numStimuli);
+stimResults.orientation = zeros(1,numStimuli); 
 
 stimResults.time = goodStimTimes;
 stimResults.side = 0; % dummy variable in this case

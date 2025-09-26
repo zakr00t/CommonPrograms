@@ -365,9 +365,9 @@ if exist(impedanceFileName,'file')
     x=load(impedanceFileName);
     
     if isfield(x,'badElecs')
-        badChannels = unique([x.badElecs.badImpedanceElecs; x.badElecs.noisyElecs; x.badElecs.flatPSDElecs; x.badElecs.declaredBadElectrodes]);
-    else
-        badChannels = [];
+        try badChannels = unique([x.badElecs.badImpedanceElecs; x.badElecs.noisyElecs; x.badElecs.flatPSDElecs; x.badElecs.declaredBadElectrodes]);
+        catch badChannels = [];
+        end
     end
     highImpChannels = setdiff(highImpChannels,badChannels);
     badTrials = x.badTrials;
@@ -830,7 +830,9 @@ else
         clear spikeData
         x = load(fullfile(folderData,['elec' num2str(channelNum) '_SID' num2str(SourceUnitID(i))]));
         spikeData = x.spikeData;
-        [psthVals,xs] = getPSTH(spikeData(goodPos),binWidthMS,[timeVals(1) timeVals(end)]);
+        try [psthVals,xs] = getPSTH(spikeData(goodPos),binWidthMS,[timeVals(1) timeVals(end)]);
+        catch [psthVals,xs] = getPSTH(spikeData(goodPos{channelNum}),binWidthMS,[timeVals(1) timeVals(end)]);
+        end
         
         % Compute the mean firing rates
         blPos = find(xs>=blRange(1),1)+ (1:(diff(blRange))/(binWidthMS/1000));

@@ -18,7 +18,7 @@ function [goodSpikeElectrodes,electrodesToUse,firingRate,snr,totalSpikes,changeI
 
 if ~exist('folderSourceString','var');  folderSourceString='N:';        end
 if ~exist('cutoffs','var');             cutoffs=[];                     end
-if ~exist('badTrialNameStr','var');     badTrialNameStr = '_v3';        end
+if ~exist('badTrialNameStr','var');     badTrialNameStr = 'V1';         end
 if ~exist('electrodesToUse','var');     electrodesToUse = [];           end
 if ~exist('parameterCombinationVals','var'); parameterCombinationVals = []; end
 if ~exist('stimulusPeriod','var'); stimulusPeriod = [0.25 0.75];        end
@@ -81,17 +81,11 @@ parameterCombinations = loadParameterCombinations(folderExtract);
 if isempty(parameterCombinationVals)
     [a, e, s, f, o, c, t] = size(parameterCombinations); % Removed boilerplate code
 else
-    [a, e, s, f, o, c, t] = deal(1); % I have no idea how 7D cells are created or look, so for now I will assume paramCombVals is a scalar index
-    protocol = string(strsplit(protocolName, "_"));
-    protocol = protocol(1);
-    if protocol == "GRF" % Knot protocol
-        f = parameterCombinationVals;
-    else % MonkeyLogic protocol
-        o = parameterCombinationVals; % I don't know why Supratim did not make f the idx like with Knot Image protocol, if he did, I wouldn't need this loop in the first place :(
-    end
+    [a, e, s, f, o, c, t] = deal(1); % I have no idea how 7D cells are created or look, so for now I will assume paramCombVals is a list of chosen stimuli
+    f = parameterCombinationVals; 
 end
 
-goodPos = setdiff(parameterCombinations{a,e,s,f,o,c,t},badTrials);
+goodPos = setdiff([parameterCombinations{a,e,s,f,o,c,t}],badTrials);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 N = length(electrodesToUse);

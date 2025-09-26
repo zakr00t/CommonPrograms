@@ -256,7 +256,7 @@ end
 xlim(h3,[checkTheseElectrodes(1) checkTheseElectrodes(end)]);
 view([90 -90]);
 
-saveas(summaryFig,fullfile(folderSegment,[monkeyName expDate protocolName 'summmaryBadTrials' arrayString '.fig']),'fig');
+saveas(summaryFig,fullfile(folderSegment,[monkeyName expDate protocolName 'summaryBadTrials' arrayString '.fig']),'fig');
 %saveas(summaryFig,[monkeyName expDate protocolName 'summmaryBadTrials' arrayString '.fig'],'fig');
 
 %**************************************************************************
